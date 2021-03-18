@@ -1,3 +1,3 @@
 # VE Intrinsics Tutorial
 
-See [docs/index.md](docs/index.md)
+See [here](https://sx-aurora-dev.github.io/ve-intrinsics-tutorial/) or [docs/index.md](docs/index.md)
