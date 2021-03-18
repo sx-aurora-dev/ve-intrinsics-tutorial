@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Basics of VE Intrinsiss - VE Intrinsics Tutorial</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Basics of VE Intrinsiss";
+    var mkdocs_page_input_path = "basics.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> VE Intrinsics Tutorial</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../setup/">Getting Started</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Basics of VE Intrinsiss</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#design-of-ve-intrinsics">Design of VE Intrinsics</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vector-type-and-functions">Vector Type and Functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#vector-type">Vector Type</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#intrinsic-functions">Intrinsic Functions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vector-length-and-pass-through-argument">Vector Length and Pass Through Argument</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vector-mask">Vector Mask</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../topics/">Other Topics</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../optimization/">Optimization Hints</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">VE Intrinsics Tutorial</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Basics of VE Intrinsiss</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="basics-of-ve-intrinsics">Basics of VE Intrinsics</h1>
+<p>This section describes some basic consepts of VE Intrinsics.</p>
+<h2 id="design-of-ve-intrinsics">Design of VE Intrinsics</h2>
+<p>VE intrinsics are intended to be as consistent as possible with the VE assembly
+described in <a href="https://www.hpc.nec/documents/sdk/pdfs/VectorEngine-as-manual-v1.3.pdf">the assembly
+manual</a>.
+Conventions such as function name, order of arguments are borrowed from the
+assembly. This is because goal of VE intrinsics is providing an easy way to
+write assembly code  with help of the compiler techniques such as register
+allocation, transformations like unrolling and C++ template. </p>
+<p>If you are familiar with VE ISA, you can start to write intrinsics without
+reading this document, <a href="https://sx-aurora-dev.github.io/velintrin.html">function
+list</a> is all you need. But this
+section helps to understand VE intrinsics quickly. Knowledge on other vector
+ISA or SIMD ISA could help to understand VE intrinsics.</p>
+<p>Unfortunately the assembly manual does not describe functionality of
+instructions. You may need to refer the <a href="https://www.hpc.nec/documents/guide/pdfs/Aurora_ISA_guide.pdf">ISA
+guide</a> to know
+what intrinsics do. <a href="https://sx-aurora-dev.github.io/velintrin.html">Our intrinsic
+list</a> includes links to both
+manuals.</p>
+<h2 id="vector-type-and-functions">Vector Type and Functions</h2>
+<p>VE Intrinsics introduce <strong>vector type</strong> <code>__vr</code> and <strong>functions</strong> that operate
+on <code>__vr</code> type variables. Typical code with intrinsics starts with loading data
+into <code>__vr</code> type variables, then works with them, and finally stores to memory.</p>
+<h3 id="vector-type">Vector Type</h3>
+<p><code>__vr</code> is defined as below. It can hold 256 x 64bit values (2048KB in total).</p>
+<pre><code class="language-c++">typedef double __vr __attribute__((__vector_size__(2048)));
+</code></pre>
+<p>Variables of <code>__vr</code> are assigned to vector registers. As a vector register can
+hold any types of value including fp32, fp64, int32, int64, etc, you can place
+any types of value into <code>__vr</code> variable.</p>
+<p>It is important to know that VE has 64 vector registers. Using too many <code>__vr</code>
+variables results in vector register spills you all hate.</p>
+<h3 id="intrinsic-functions">Intrinsic Functions</h3>
+<p>Function format is  <code>_vel_&lt;asm&gt;_&lt;suffix&gt;</code>.</p>
+<p><code>&lt;asm&gt;</code> is an instruction mnemonic in <a href="https://www.hpc.nec/documents/sdk/pdfs/VectorEngine-as-manual-v1.3.pd">the assembly
+manual</a>.
+Some assembly instructions have mnemonic suffix to give additional means to an
+instruction. For example, <code>vfadd.d</code> instruction has <code>.d</code> suffix to show that
+operands are handled as fp64. See the assembly manual for the complete list of
+mnemonic suffix. In intrinsics, dot(<code>.</code>) in mnemonic is simply removed. For
+example, <code>vfadd.d</code> becomes <code>vfaddd</code>.</p>
+<p><code>&lt;suffix&gt;</code> is a list of types of return value and arguments in a single
+character.</p>
+<ul>
+<li><code>v</code>: vector</li>
+<li><code>s</code>: scalar</li>
+<li><code>m</code> and <code>M</code>: vector mask for 256 elements and 512 elements</li>
+<li><code>l</code>: vector length</li>
+</ul>
+<p>For example, suffix <code>vssl</code> in <code>_vel_vld_vssl</code> means vector(return value),
+scalar(1st argument), scalar(2nd) and vector length(3rd). Some functions has
+variants with different suffix to accept different type of arguments. For
+example, <code>_vel_vfaddd_vvvl</code> is addition of two vectors and <code>_vel_vfaddd_vsvl</code>
+is addition among a vector and a scalar where a
+scalar is added to all elements in a vector.</p>
+<h3 id="vector-length-and-pass-through-argument">Vector Length and Pass Through Argument</h3>
+<p>Vector length argument shows number of elements updated by the function. For
+example,</p>
+<p><code>va = _vel_vfaddd_vvvl(vb, vc, 100)</code></p>
+<p>updates first 100 elements of <code>va</code> with the result of <code>vb + vc</code>.  Elements
+after vector length, i.e. last 156 elements in this case, becomes
+<strong>undefined</strong>. Note that this is different from hardware instructions where
+such elements are not changed.</p>
+<p>You can use another variant of a function to give a  <em>pass through argument</em>
+that is filled into elements after vector length. For example,
+<code>_vel_vfaddd_vvvvl</code>(four <code>v</code>s in a suffix) is the variant of
+<code>_vel_vfaddd_vvvl</code>(three <code>v</code>s) and its third argument is a pass through
+argument (In <a href="https://sx-aurora-dev.github.io/velintrin.html">the intrinsics
+list</a>, a pass through argument
+is shown as <code>pt</code>). In the case of</p>
+<p><code>va = _vel_vfaddd_vvvvl(vb, vc, vd, 100)</code>,</p>
+<p>last 156 elements of <code>va</code> are updated with last 156 elements of <code>vd</code>.
+Typically, a pass through argument is same as an output variable like </p>
+<p><code>va = _vel_vfadd_vvvvl(vb, vc, va, 100)</code></p>
+<p>to keep elements after vector length unchanged.</p>
+<p>Note: Hardware vector instructions do not actually have a vector length
+operand.  Instead vector length is given by the vector length register, and its
+value is loaded by <code>LVL</code> (Load Vector Length) instruction. VE intrinsics does
+not provide a function for LVL instruction, but it is automatically generated
+by the compiler from a vector length argument in intrinsics.</p>
+<h2 id="vector-mask">Vector Mask</h2>
+<p>VE has eight 256 bit vector mask registers. A vector mask register is given to
+a vector instruction to <em>mask</em> elements of its output vector. When an element
+is masked, i.e. a bit is zero, such element is not updated by the instruction.</p>
+<p>VE intrinsics introduce <code>__vm256</code> type to hold a vector mask. Intrinsic
+functions has variants that accept <code>__vm256</code> variable as an argument.  Such
+variants also accept a pass through argument to fill masked elements.  For
+example, the variant of <code>_vel_vfaddd_vvvl</code> is <code>_vel_vfaddd_vvvmvl</code> where
+<code>m</code> in suffix shows a vector mask and <code>v</code> after <code>m</code> means a pass through
+argument. <code>va = _vel_vfaddd_vvvmvl(vb, vc, vm, vd, vl)</code> works as</p>
+<pre><code class="language-c++">for (i = 0; i &lt; vl; ++i)
+  va[i] = vm[i] ? vb[i] + vc[i] : vd[i]
+</code></pre>
+<p>Typically, a pass through argument is same as an output variable like </p>
+<p><code>va = _vel_vfadd_vvvmvl(vb, vc, vm, va, vl)</code></p>
+<p>to keep masked elements unchanged.</p>
+<p>A vector mask is used for a loop with a conditional branch.</p>
+<pre><code class="language-c++">void vaddif(double* a, double const* b, double const* c, double const* cond, int n) {
+    for (int i = 0; i &lt; n; ++i) {
+        if (cond[i] &gt; 0.0)
+            a[i] = b[i] + c[i];
+    }
+}
+</code></pre>
+<p>An example written in intrinsics is shown below. </p>
+<pre><code class="language-c++">#define VL 256
+for (int i = 0; i &lt; n; i += VL) {
+    int vl = std::min(VL, n - i);
+    __vr va = _vel_vld_vssl(8, a, vl);
+    __vr vb = _vel_vld_vssl(8, b, vl);
+    __vr vc = _vel_vld_vssl(8, c, vl);
+    __vr vcond = _vel_vld_vssl(8, cond, vl);
+    __vm256 mask = _vel_vfmkdgt_mvl(vcond, vl); // mask = vcond &gt; 0
+    va = _vel_vfaddd_vvvmvl(vb, vc, mask, va, vl); // va = mask ? vb + vc : va
+    _vel_vst_vssl(va, 8, a, vl);
+
+    a += vl;
+    b += vl;
+    c += vl;
+    cond += vl;
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../topics/" class="btn btn-neutral float-right" title="Other Topics">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../setup/" class="btn btn-neutral" title="Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../setup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../topics/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
