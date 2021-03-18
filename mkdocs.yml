@@ -1,0 +1,10 @@
+site_name: VE Intrinsics Tutorial
+theme: readthedocs
+nav:
+  - Home: index.md
+  - Introduction: intro.md
+  - Getting Started: setup.md
+  - Basics of VE Intrinsiss: basics.md
+  - Other Topics: topics.md
+  - Optimization Hints: optimization.md
+  - References: references.md
