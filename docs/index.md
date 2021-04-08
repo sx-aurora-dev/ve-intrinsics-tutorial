@@ -6,7 +6,7 @@ Complete list of VE instrinsics can be found [here](https://sx-aurora-dev.github
 
 This document includes following sections.
 
-- [Introduction: Imprementing VectorAdd](intro.md)
+- [Introduction: Implementing VectorAdd](intro.md)
 - [Getting Started: Setting up LLVM-VE](setup.md)
 - [Basics of VE Intrinsics](basics.md)
 - [Other Topics](topics.md)
